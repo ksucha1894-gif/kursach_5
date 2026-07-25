@@ -1,19 +1,6 @@
 from rest_framework import serializers
 
 from .models import Habit
-
-
-class HabitSerializer(serializers.ModelSerializer):
-    """Сериализатор для модели привычки, переводящий данные в JSON-формат."""
-
-    class Meta:
-        model = Habit
-        fields = "__all__"
-
-
-from rest_framework import serializers
-
-from .models import Habit
 from .validators import (AssociatedHabitIsPleasantValidator, DurationValidator,
                          PeriodicityValidator,
                          PleasantHabitRestrictionsValidator,

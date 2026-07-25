@@ -13,6 +13,9 @@ class User(AbstractUser):
         max_length=35, blank=True, null=True, verbose_name="Номер телефона"
     )
     city = models.CharField(max_length=150, blank=True, null=True, verbose_name="Город")
+    telegram_chat_id = models.CharField(
+        max_length=100, blank=True, null=True, verbose_name="Telegram Chat ID"
+    )
     avatar = models.ImageField(
         upload_to="users/avatars/", blank=True, null=True, verbose_name="Аватар"
     )

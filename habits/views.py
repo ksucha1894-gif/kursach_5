@@ -2,6 +2,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
 from .models import Habit
+from .paginators import HabitPaginator
 from .permissions import IsOwner
 from .serializers import HabitSerializer
 
@@ -22,6 +23,7 @@ class HabitListAPIView(generics.ListAPIView):
 
     serializer_class = HabitSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = HabitPaginator
 
     def get_queryset(self):
         """Возвращает привычки только того пользователя, который сделал запрос."""
@@ -53,3 +55,12 @@ class HabitDestroyAPIView(generics.DestroyAPIView):
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
     permission_classes = [IsAuthenticated, IsOwner]
+
+
+class PublicHabitListAPIView(generics.ListAPIView):
+    """Контроллер для просмотра списка всех публичных привычек (доступен всем)."""
+
+    queryset = Habit.objects.filter(is_public=True)
+    serializer_class = HabitSerializer
+    permission_classes = []  # Пустой список означает доступ без авторизации!
+    pagination_class = HabitPaginator
