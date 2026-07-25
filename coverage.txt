@@ -1,9 +1,9 @@
 Name                                             Stmts   Miss  Cover
 --------------------------------------------------------------------
-config/__init__.py                                   2      2     0%
+config/__init__.py                                   2      0   100%
 config/asgi.py                                       4      4     0%
 config/celery.py                                     8      8     0%
-config/settings.py                                  26      0   100%
+config/settings.py                                  28      0   100%
 config/urls.py                                       9      0   100%
 config/wsgi.py                                       4      4     0%
 habits/__init__.py                                   0      0   100%
@@ -15,8 +15,8 @@ habits/models.py                                    36      6    83%
 habits/paginators.py                                 4      0   100%
 habits/permissions.py                                4      0   100%
 habits/serializers.py                                8      0   100%
-habits/tasks.py                                     21     21     0%
-habits/tests.py                                     36      0   100%
+habits/tasks.py                                     21     14    33%
+habits/tests.py                                     53      0   100%
 habits/urls.py                                       5      0   100%
 habits/validators.py                                42      4    90%
 habits/views.py                                     37      1    97%
@@ -31,4 +31,4 @@ users/models.py                                     16      1    94%
 users/tests.py                                       1      0   100%
 users/views.py                                      14      2    86%
 --------------------------------------------------------------------
-TOTAL                                              333     58    83%
+TOTAL                                              352     49    86%

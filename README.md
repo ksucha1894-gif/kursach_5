@@ -54,5 +54,5 @@
    ```
 4. Запись результатов тестирования:
    ```bash
-   poetry run coverage html
+   poetry run coverage report > coverage.txt
    ```

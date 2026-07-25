@@ -5,6 +5,7 @@ from rest_framework.test import APITestCase
 from users.models import User
 
 from .models import Habit
+from .tasks import send_telegram_notifications
 
 
 class HabitTestCase(APITestCase):
@@ -77,3 +78,29 @@ class HabitTestCase(APITestCase):
         url = reverse("habits:habit-delete", kwargs={"pk": self.pleasant_habit.pk})
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_get_habit_list_pagination(self):
+        """Тест наличия пагинации в списке привычек."""
+        url = reverse("habits:habit-list")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        # Проверяем, что в ответе API появились ключи пагинатора
+        self.assertIn("next", response.data)
+        self.assertIn("results", response.data)
+
+    def test_habit_permissions_is_owner(self):
+        """Тест жестких прав IsOwner (запрет редактирования чужой привычки)."""
+        # Создаем чужого пользователя для проверки защиты
+        other_user = User.objects.create_user(
+            email="other@yandex.ru", password="otherpassword123", username="otheruser"
+        )
+        self.client.force_authenticate(user=other_user)
+        url = reverse("habits:habit-update", kwargs={"pk": self.pleasant_habit.pk})
+        data = {"action": "Взломать код"}
+        response = self.client.patch(url, data)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_celery_and_telegram_task(self):
+        """Тест вызова фоновой Celery-задачи рассылки напоминаний."""
+        result = send_telegram_notifications.delay()
+        self.assertTrue(result.id)
